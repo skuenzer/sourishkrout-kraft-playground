@@ -1,0 +1,9 @@
+spec: v0.6
+
+name: playground
+
+runtime: node:18
+
+rootfs: ./Dockerfile
+
+cmd: ["/usr/lib/code-server/bin/code-server", "--auth", "none", "--app-name", "Playground"]
