@@ -1,9 +1,9 @@
-spec: v0.6
+spec: v0.7
 
 name: playground
 
-runtime: node:18
+runtime: base-compat:latest
 
 rootfs: ./Dockerfile
 
-cmd: ["/usr/lib/code-server/bin/code-server", "--auth", "none", "--app-name", "Playground"]
+cmd: ["/usr/bin/code-server", "--auth", "none", "--app-name", "Playground"]

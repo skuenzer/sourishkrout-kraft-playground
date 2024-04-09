@@ -1,14 +1,18 @@
 FROM codercom/code-server:debian AS codeserver
 
-# RUN apt-get update; \
-#     apt-get install -y git build-essential; \
-#     rm -rf /var/lib/apt/lists/*;
+RUN sudo apt update && \
+    sudo apt install -y --no-install-recommends git build-essential;
 
-WORKDIR /code
+WORKDIR /home/coder
+RUN code-server --install-extension stateful.runme
+RUN git clone --depth=1 https://github.com/stateful/vscode-runme.git
+RUN rm -rf vscode-runme/.git
+ADD .vscode vscode-runme/examples/.vscode
 
-# RUN code-server --install-extension stateful.runme
-# RUN git clone --depth=1 https://github.com/stateful/vscode-runme.git
-# RUN rm -rf vscode-runme/.git
-# ADD .vscode vscode-runme/examples/.vscode
-# RUN cat /home/coder/.config/code-server/config.yaml
-CMD ["code-server", "--auth", "none", "--app-name", "Playground"]
+#
+# Kraftcloud image
+FROM scratch
+
+COPY --from=codeserver /usr/bin/code-server /usr/bin/code-server
+# TODO: Copy dependencies of code-server
+COPY --from=codeserver /home/coder /home/coder
